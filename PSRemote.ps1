@@ -1,0 +1,4 @@
+﻿Start-Process powershell -ArgumentList '(Get-WmiObject Win32_TerminalServiceSetting -Namespace root\cimv2\TerminalServices).SetAllowTsConnections(1,1) | Out-Null '
+Start-Process powershell -ArgumentList '(Get-WmiObject -Class `"Win32_TSGeneralSetting`" -Namespace root\cimv2\TerminalServices -Filter `"TerminalName='RDP-tcp'`").SetUserAuthenticationRequired(0) | Out-Null '
+Start-Process powershell -ArgumentList 'Get-NetFirewallRule -DisplayName `"Remote Desktop*`" | Set-NetFirewallRule -enabled true'
+Start-Process powershell -ArgumentList 'Get-NetFirewallPortFilter | ?{`$_.LocalPort -eq 5985 } | Get-NetFirewallRule | ?{ `$_.Direction –eq `"Inbound`" -and `$_.Profile -eq `"Public`" -and `$_.Action –eq `"Allow`"} | Set-NetFirewallRule -RemoteAddress `"Any`" '
